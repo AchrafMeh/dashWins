@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - متوسطة محمد خيذر</title>
+    <link href="https://cdn-icons-png.flaticon.com/512/6879/6879716.png" rel="icon">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font: Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between">
+
+    <!-- شاشة تسجيل الدخول -->
+    <div id="loginScreen" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 p-6 md:p-8 rounded-2xl max-w-md w-full text-center shadow-2xl">
+            <div class="w-16 h-16 rounded-2xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-3xl text-emerald-500 mx-auto mb-4">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-2">لوحة إدارة المتوسطة</h2>
+            <p class="text-slate-400 text-xs mb-6">تسجيل الدخول للوصول إلى صلاحيات نشر الأخبار والتعديل</p>
+
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <input type="email" id="emailInput" placeholder="البريد الإلكتروني..." required 
+                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-emerald-500 text-left" dir="ltr">
+                </div>
+                <div>
+                    <input type="password" id="passInput" placeholder="كلمة المرور..." required 
+                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-emerald-500 text-center">
+                </div>
+                <p id="loginError" class="text-red-500 text-xs hidden">البريد الإلكتروني أو كلمة المرور غير صحيحة!</p>
+                
+                <button type="submit" id="loginBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-xl text-sm transition shadow-lg shadow-emerald-600/20">
+                    دخول
+                </button>
+                <a href="/" class="block text-xs text-slate-400 hover:text-slate-200 mt-3 transition">← العودة للموقع الرئيسي</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="border-b border-slate-800 bg-slate-900/80 sticky top-0 z-40 backdrop-blur-md">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-xl shadow-lg shadow-emerald-500/30">
+                    <i class="fa-solid fa-sliders text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-white">لوحة التحكم المطلقة</h1>
+                    <p class="text-xs text-slate-400">متوسطة محمد خيذر - طولقة</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="logoutBtn" class="text-xs font-semibold bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white px-3 py-2 rounded-lg border border-red-500/30 transition flex items-center gap-1">
+                    <i class="fa-solid fa-right-from-bracket"></i> خروج
+                </button>
+                <a href="/" class="text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-2 rounded-lg border border-slate-700 transition flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-right"></i> الرئيسية
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
+
+        <!-- 1️⃣ التحكم في الشريط العاجل -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+            <h3 class="text-md font-bold text-amber-400 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-bullhorn"></i> التحكم في الشريط العاجل/التنبيهات الهامة
+            </h3>
+            <div class="flex flex-col gap-3">
+                <input type="text" id="urgentTextInput" placeholder="أكتب نص التنبيه العاجل هنا..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-amber-500">
+                <input type="url" id="urgentUrlInput" placeholder="رابط الموقع (اختياري): https://..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-amber-500 text-left" dir="ltr">
+                <div class="flex gap-2">
+                    <button id="saveUrgentBtn" class="bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition flex-grow whitespace-nowrap">
+                        تحديث ونشر التنبيه
+                    </button>
+                    <button id="disableUrgentBtn" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-4 py-2.5 rounded-xl text-xs transition whitespace-nowrap">
+                        إخفاء التنبيه
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2️⃣ نموذج إضافة / تعديل منشور -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl">
+            <h2 id="formTitle" class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <i class="fa-solid fa-plus-circle text-emerald-500"></i> نشر خبر أو إعلان جديد
+            </h2>
+
+            <form id="postForm" class="space-y-4">
+                <input type="hidden" id="editingId" value="">
+
+                <div>
+                    <label class="block text-xs text-slate-400 mb-2">عنوان الخبر / الإعلان:</label>
+                    <input type="text" id="postTitle" placeholder="مثال: برنامج امتحانات الفصل الثاني للسنة الثالثة متوسط" required 
+                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-2">القسم / الفئة:</label>
+                        <select id="postCategory" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
+                            <!-- سيتم ملؤها ديناميكياً -->
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-2">رابط مرفق أو صورة (اختياري):</label>
+                        <input type="url" id="postUrl" placeholder="https://drive.google.com/..." 
+                            class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500 text-left" dir="ltr">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-slate-400 mb-2">تفاصيل الخبر / التفاصيل الكاملة:</label>
+                    <textarea id="postDesc" rows="4" placeholder="أكتب التفاصيل والشروط هنا..." required
+                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500"></textarea>
+                </div>
+
+                <div class="flex items-center gap-2 py-1">
+                    <input type="checkbox" id="postImportant" class="w-4 h-4 rounded accent-amber-500">
+                    <label for="postImportant" class="text-xs text-amber-400 font-bold">تثبيت كـ "خبر هام" في الأعلام العلوية</label>
+                </div>
+
+                <div class="flex gap-3">
+                    <button type="submit" id="submitBtn" class="flex-grow bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-xl text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20">
+                        <i class="fa-solid fa-paper-plane"></i> <span id="submitBtnText">حفظ ونشر</span>
+                    </button>
+                    <button type="button" id="cancelEditBtn" class="hidden bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 px-4 rounded-xl text-sm transition">
+                        إلغاء التعديل
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 3️⃣ إدارة أقسام وفئات الموقع -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+            <h3 class="text-md font-bold text-white mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-layer-group text-emerald-500"></i> إدارة فئات الأخبار (إضافة / إزالة فئة)
+            </h3>
+            <div class="flex gap-2 mb-4">
+                <input type="text" id="newCatInput" placeholder="اسم الفئة الجديدة (مثال: رحلات مدرسية)..." class="flex-grow bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
+                <button id="addCatBtn" type="button" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-500/30 px-4 py-2 rounded-xl text-xs font-bold transition">
+                    + إضافة
+                </button>
+            </div>
+            <div id="categoriesList" class="flex flex-wrap gap-2">
+                <!-- سيتم ملؤها ببطاقات الفئات الحالية -->
+            </div>
+        </div>
+
+        <!-- 4️⃣ قائمة المشاركات الحالية (تعديل وحذف) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl">
+            <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <i class="fa-solid fa-list text-emerald-500"></i> الأخبار والمشاركات المنشورة
+            </h2>
+
+            <div id="adminList" class="space-y-3">
+                <div class="text-center py-8 text-slate-500">
+                    <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 text-emerald-500"></i>
+                    <p class="text-xs">جاري جلب المنشورات...</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-900 py-6 text-center text-xs text-slate-500">
+        جميع الحقوق محفوظة &copy; 2026 - لوحة تحكم متوسطة محمد خيذر
+    </footer>
+
+    <!-- Firebase Script Logic -->
+    <script type="module">
+        import { 
+            db, 
+            auth, 
+            ref, 
+            push, 
+            set, 
+            update, 
+            onValue, 
+            remove, 
+            signInWithEmailAndPassword, 
+            signOut, 
+            onAuthStateChanged 
+        } from './firebase-config.js';
+
+        // العناصر
+        const loginScreen = document.getElementById('loginScreen');
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('emailInput');
+        const passInput = document.getElementById('passInput');
+        const loginError = document.getElementById('loginError');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        const postForm = document.getElementById('postForm');
+        const editingId = document.getElementById('editingId');
+        const formTitle = document.getElementById('formTitle');
+        const submitBtnText = document.getElementById('submitBtnText');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const postCategory = document.getElementById('postCategory');
+        const adminList = document.getElementById('adminList');
+
+        const urgentTextInput = document.getElementById('urgentTextInput');
+        const urgentUrlInput = document.getElementById('urgentUrlInput');
+        const saveUrgentBtn = document.getElementById('saveUrgentBtn');
+        const disableUrgentBtn = document.getElementById('disableUrgentBtn');
+
+        const newCatInput = document.getElementById('newCatInput');
+        const addCatBtn = document.getElementById('addCatBtn');
+        const categoriesList = document.getElementById('categoriesList');
+
+        const defaultCategories = ['أخبار عامة', 'فروض واختبارات', 'إعلانات إدارية', 'نشاطات'];
+        let rawNewsData = {};
+
+        // مراقبة حالة تسجيل الدخول
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                loginScreen.classList.add('hidden');
+                initData();
+            } else {
+                loginScreen.classList.remove('hidden');
+            }
+        });
+
+        // تسجيل الدخول
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحقق...';
+            loginError.classList.add('hidden');
+
+            try {
+                await signInWithEmailAndPassword(auth, emailInput.value.trim(), passInput.value);
+                loginForm.reset();
+            } catch (error) {
+                loginError.textContent = "بيانات الدخول غير صحيحة أو توجد مشكلة في الاتصال!";
+                loginError.classList.remove('hidden');
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = 'دخول';
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => signOut(auth));
+
+        function initData() {
+            // 1. جلب وإدارة الفئات
+            onValue(ref(db, 'categories'), (snapshot) => {
+                const data = snapshot.val();
+                let cats = [];
+                if (data) {
+                    cats = Object.values(data);
+                } else {
+                    cats = defaultCategories;
+                }
+                renderCategoriesAdmin(cats, data);
+            });
+
+            // 2. جلب الأخبار
+            onValue(ref(db, 'windows'), (snapshot) => {
+                rawNewsData = snapshot.val() || {};
+                renderAdminList();
+            });
+
+            // 3. جلب بيانات التنبيه العاجل
+            onValue(ref(db, 'settings/urgentNews'), (snapshot) => {
+                const urgent = snapshot.val();
+                if (urgent) {
+                    urgentTextInput.value = urgent.text || '';
+                    urgentUrlInput.value = urgent.url || '';
+                }
+            });
+        }
+
+        // عرض وتعبئة الفئات
+        function renderCategoriesAdmin(cats, rawCategoryData) {
+            // تعبئة القائمة المنسدلة لإنشاء خبر
+            postCategory.innerHTML = cats.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+
+            // تعبئة بطاقات إدارة الفئات
+            categoriesList.innerHTML = '';
+            
+            if (rawCategoryData) {
+                Object.keys(rawCategoryData).forEach(key => {
+                    const catName = rawCategoryData[key];
+                    const span = document.createElement('span');
+                    span.className = 'bg-slate-950 border border-slate-800 text-slate-300 text-xs px-3 py-1 rounded-lg flex items-center gap-2';
+                    span.innerHTML = `
+                        ${escapeHtml(catName)}
+                        <button type="button" class="text-red-400 hover:text-red-300 delete-cat-btn" data-key="${key}">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    `;
+                    categoriesList.appendChild(span);
+                });
+
+                // إضافة أحداث الحذف
+                document.querySelectorAll('.delete-cat-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const key = e.currentTarget.getAttribute('data-key');
+                        if (confirm('هل تريد حذف هذه الفئة؟')) {
+                            remove(ref(db, `categories/${key}`));
+                        }
+                    });
+                });
+            } else {
+                categoriesList.innerHTML = cats.map(c => `
+                    <span class="bg-slate-950 border border-slate-800 text-slate-300 text-xs px-3 py-1 rounded-lg">${escapeHtml(c)}</span>
+                `).join('');
+            }
+        }
+
+        // إضافة فئة جديدة
+        addCatBtn.addEventListener('click', async () => {
+            const val = newCatInput.value.trim();
+            if (!val) {
+                alert('يرجى كتابة اسم الفئة أولاً!');
+                return;
+            }
+
+            try {
+                await push(ref(db, 'categories'), val);
+                newCatInput.value = '';
+            } catch (err) {
+                alert('حدث خطأ أثناء إضافة الفئة: ' + err.message);
+            }
+        });
+
+        // حفظ / تعديل خبر
+        postForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = editingId.value;
+
+            if (!postCategory.value) {
+                alert('يرجى اختيار فئة للخبر!');
+                return;
+            }
+
+            const payload = {
+                name: document.getElementById('postTitle').value.trim(),
+                arch: postCategory.value,
+                url: document.getElementById('postUrl').value.trim(),
+                desc: document.getElementById('postDesc').value.trim(),
+                isImportant: document.getElementById('postImportant').checked,
+                createdAt: id ? (rawNewsData[id]?.createdAt || Date.now()) : Date.now()
+            };
+
+            try {
+                if (id) {
+                    await update(ref(db, `windows/${id}`), payload);
+                    alert('تم تعديل الخبر بنجاح!');
+                } else {
+                    await push(ref(db, 'windows'), payload);
+                    alert('تم نشر الخبر بنجاح!');
+                }
+                resetPostForm();
+            } catch (err) {
+                alert('حدث خطأ أثناء نشر الخبر: ' + err.message);
+            }
+        });
+
+        cancelEditBtn.addEventListener('click', resetPostForm);
+
+        function resetPostForm() {
+            postForm.reset();
+            editingId.value = '';
+            formTitle.innerHTML = '<i class="fa-solid fa-plus-circle text-emerald-500"></i> نشر خبر أو إعلان جديد';
+            submitBtnText.textContent = 'حفظ ونشر';
+            cancelEditBtn.classList.add('hidden');
+        }
+
+        // عرض المنشورات
+        function renderAdminList() {
+            adminList.innerHTML = '';
+
+            const keys = Object.keys(rawNewsData);
+            if (keys.length === 0) {
+                adminList.innerHTML = `<p class="text-xs text-center py-6 text-slate-500">لا توجد منشورات حالياً.</p>`;
+                return;
+            }
+
+            keys.forEach(id => {
+                const item = rawNewsData[id];
+                const div = document.createElement('div');
+                div.className = 'bg-slate-950 border border-slate-800 p-4 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 hover:border-slate-700 transition';
+
+                div.innerHTML = `
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] bg-slate-900 text-emerald-400 px-2 py-0.5 rounded border border-slate-800 font-bold">${escapeHtml(item.arch)}</span>
+                            ${item.isImportant ? '<span class="text-[10px] bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded border border-amber-500/30">هام</span>' : ''}
+                        </div>
+                        <h4 class="text-sm font-bold text-white">${escapeHtml(item.name)}</h4>
+                        <p class="text-xs text-slate-400 line-clamp-1">${escapeHtml(item.desc)}</p>
+                    </div>
+
+                    <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+                        <button type="button" class="edit-btn bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white border border-blue-500/30 px-3 py-1.5 rounded-lg text-xs font-semibold transition" data-id="${id}">
+                            <i class="fa-solid fa-pen"></i> تعديل
+                        </button>
+                        <button type="button" class="delete-btn bg-red-600/20 text-red-400 hover:bg-red-600 hover:text-white border border-red-500/30 px-3 py-1.5 rounded-lg text-xs font-semibold transition" data-id="${id}">
+                            <i class="fa-solid fa-trash"></i> حذف
+                        </button>
+                    </div>
+                `;
+                adminList.appendChild(div);
+            });
+
+            // ربط أزرار التعديل والحذف
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = e.currentTarget.getAttribute('data-id');
+                    editPost(id);
+                });
+            });
+
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = e.currentTarget.getAttribute('data-id');
+                    deletePost(id);
+                });
+            });
+        }
+
+        function editPost(id) {
+            const item = rawNewsData[id];
+            if (!item) return;
+
+            editingId.value = id;
+            document.getElementById('postTitle').value = item.name || '';
+            postCategory.value = item.arch || '';
+            document.getElementById('postUrl').value = item.url || '';
+            document.getElementById('postDesc').value = item.desc || '';
+            document.getElementById('postImportant').checked = !!item.isImportant;
+
+            formTitle.innerHTML = '<i class="fa-solid fa-pen-to-square text-blue-500"></i> تعديل المنشور الحالي';
+            submitBtnText.textContent = 'حفظ التعديلات';
+            cancelEditBtn.classList.remove('hidden');
+            window.scrollTo({ top: 150, behavior: 'smooth' });
+        }
+
+        function deletePost(id) {
+            if (confirm('هل أنت تأكد من إزالة هذا المنشور؟')) {
+                remove(ref(db, `windows/${id}`));
+            }
+        }
+
+        // التحكم في التنبيه العاجل
+        saveUrgentBtn.addEventListener('click', async () => {
+            const text = urgentTextInput.value.trim();
+            const url = urgentUrlInput.value.trim();
+
+            if (!text) {
+                alert('يرجى إدخال نص التنبيه العاجل أولاً!');
+                return;
+            }
+
+            try {
+                await set(ref(db, 'settings/urgentNews'), { text, url, enabled: true });
+                alert('تم نشر التنبيه العاجل بنجاح!');
+            } catch (err) {
+                console.error(err);
+                alert('حدث خطأ في النشر! تأكد من إعدادات القواعد Realtime Database Rules في Firebase.');
+            }
+        });
+
+        disableUrgentBtn.addEventListener('click', async () => {
+            const text = urgentTextInput.value.trim();
+            const url = urgentUrlInput.value.trim();
+
+            try {
+                await set(ref(db, 'settings/urgentNews'), { text, url, enabled: false });
+                alert('تم إخفاء التنبيه العاجل.');
+            } catch (err) {
+                console.error(err);
+                alert('حدث خطأ أثناء إخفاء التنبيه!');
+            }
+        });
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"']/g, function(m) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+            });
+        }
+    </script>
+</body>
+</html>
